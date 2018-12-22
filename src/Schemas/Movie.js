@@ -4,6 +4,7 @@ module.exports = gql`
 	extend type Query {
 		movie(name: String!): Movie!
 		movies: [Movie!]!
+		watchedMovies: [Movie!]!
 	}
 
 	extend type Mutation {

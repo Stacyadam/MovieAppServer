@@ -4,11 +4,18 @@ const { isAuthenticated, isMovieOwner } = require('./authorization');
 module.exports = {
 	Query: {
 		movies: (parent, args, { models }) => {
-			return models.Movie.findAll();
+			return models.Movie.findAll({ where: { watched: false } });
 		},
-		movie: (parent, args, { models }) => {
-			const { id } = args;
-			return models.Movie.findById(id);
+		watchedMovies: (parent, args, { models }) => {
+			return models.Movie.findAll({ where: { watched: true } });
+		},
+		movie: async (parent, args, { models }) => {
+			const { name } = args;
+			const movie = await models.Movie.findOne({ where: { name } });
+
+			if (!movie) throw new Error('The movie was not found.');
+
+			return movie;
 		}
 	},
 
