@@ -13,18 +13,36 @@ module.exports = {
 	},
 
 	Mutation: {
-		createMovie: combineResolvers(isAuthenticated, (parent, args, { models, me }) => {
+		createMovie: combineResolvers(isAuthenticated, async (parent, args, { models, me }) => {
 			const { name, rank } = args;
-			return models.Movie.create({
+			await models.Movie.create({
 				name,
 				rank,
 				userId: me.id
 			});
+
+			const watchedList = await models.Movie.findAll({ where: { watched: false } });
+			return watchedList;
 		}),
 
-		deleteMovie: combineResolvers(isAuthenticated, isMovieOwner, (parent, args, { models }) => {
+		deleteMovie: combineResolvers(isAuthenticated, isMovieOwner, async (parent, args, { models }) => {
 			const { name } = args;
-			return models.Movie.destroy({ where: { name } });
+			await models.Movie.destroy({ where: { name } });
+
+			return await models.Movie.findAll();
+		}),
+
+		rateMovie: combineResolvers(isAuthenticated, async (parent, args, { models }) => {
+			const { name, stars } = args;
+			//TODO Find movie record, see if it has a stars value, take the average with the incoming stars request
+			const update = await models.Movie.update({ stars, watched: true }, { where: { name } });
+
+			if (update[0] === 0) {
+				throw new Error('No movie found with that name.');
+			}
+
+			const watchedList = await models.Movie.findAll({ where: { watched: true } });
+			return watchedList;
 		})
 	},
 

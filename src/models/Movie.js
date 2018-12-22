@@ -13,7 +13,7 @@ module.exports = (sequelize, DataTypes) => {
 			}
 		},
 		rank: {
-			type: DataTypes.TINYINT,
+			type: DataTypes.INTEGER,
 			validate: {
 				min: {
 					args: [1],
@@ -22,6 +22,20 @@ module.exports = (sequelize, DataTypes) => {
 				max: {
 					args: [10],
 					msg: 'Movie rank must be lower than 10'
+				}
+			}
+		},
+		stars: {
+			type: DataTypes.DECIMAL,
+			defaultValue: 0,
+			validate: {
+				min: {
+					args: [0],
+					msg: 'Movie stars must not be negative'
+				},
+				max: {
+					args: [5],
+					msg: 'Movie stars must be lower than 5'
 				}
 			}
 		},

@@ -5,13 +5,13 @@ const isAuthenticated = (parent, args, { me }) => (me ? skip : new ForbiddenErro
 
 const isMovieOwner = async (parent, args, { models, me }) => {
 	const { name } = args;
-	const character = await models.Movie.find({ where: { name }, raw: true });
+	const movie = await models.Movie.find({ where: { name }, raw: true });
 
 	if (!movie) {
 		throw new Error('Movie not found.');
 	}
 
-	if (character.userId !== me.id) {
+	if (movie.userId !== me.id) {
 		throw new ForbiddenError('Not authenticated as owner.');
 	}
 
