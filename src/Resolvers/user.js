@@ -2,8 +2,8 @@ const jwt = require('jsonwebtoken');
 const { UserInputError } = require('apollo-server');
 
 const createToken = async (user, secret, expiresIn) => {
-	const { id, email, username, role } = user;
-	return await jwt.sign({ id, email, username, role }, secret, { expiresIn });
+	const { id, email, role } = user;
+	return await jwt.sign({ id, email, role }, secret, { expiresIn });
 };
 
 module.exports = {
@@ -19,10 +19,9 @@ module.exports = {
 
 	Mutation: {
 		signUp: async (parent, args, { models, secret }) => {
-			const { username, email, password } = args;
+			const { email, password } = args;
 
 			const user = await models.User.create({
-				username,
 				email,
 				password
 			});
@@ -31,16 +30,17 @@ module.exports = {
 		},
 
 		signIn: async (parent, args, { models, secret }) => {
-			const { login, password } = args;
+			const { email, password } = args;
 
-			const user = await models.User.findByLogin(login);
+			const user = await models.User.findOne({ where: { email } });
+
 			if (!user) {
-				throw new UserInputError('Username or password are incorrect.');
+				throw new UserInputError('Email or password are incorrect.');
 			}
 
 			const isValid = await user.validatePassword(password);
 			if (!isValid) {
-				throw new UserInputError('Username or password are incorrect.');
+				throw new UserInputError('Email or password are incorrect.');
 			}
 
 			return { token: createToken(user, secret, '30d') };
@@ -48,8 +48,8 @@ module.exports = {
 	},
 
 	User: {
-		characters: (user, args, { models }) => {
-			return models.Character.findAll({
+		movies: (user, args, { models }) => {
+			return models.Movie.findAll({
 				where: {
 					userId: user.id
 				}

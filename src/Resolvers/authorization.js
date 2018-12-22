@@ -3,12 +3,12 @@ const { skip } = require('graphql-resolvers');
 
 const isAuthenticated = (parent, args, { me }) => (me ? skip : new ForbiddenError('Not authenticated as user.'));
 
-const isCharacterOwner = async (parent, args, { models, me }) => {
+const isMovieOwner = async (parent, args, { models, me }) => {
 	const { name } = args;
-	const character = await models.Character.find({ where: { name }, raw: true });
+	const character = await models.Movie.find({ where: { name }, raw: true });
 
-	if (!character) {
-		throw new Error('Character not found.');
+	if (!movie) {
+		throw new Error('Movie not found.');
 	}
 
 	if (character.userId !== me.id) {
@@ -20,5 +20,5 @@ const isCharacterOwner = async (parent, args, { models, me }) => {
 
 module.exports = {
 	isAuthenticated,
-	isCharacterOwner
+	isMovieOwner
 };
