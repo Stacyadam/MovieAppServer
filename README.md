@@ -1,2 +1,1 @@
-# game-server-graphQL
-GraphQL of a game server
+# Movie App Server
