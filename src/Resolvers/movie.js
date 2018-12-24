@@ -22,14 +22,13 @@ module.exports = {
 	Mutation: {
 		createMovie: combineResolvers(isAuthenticated, async (parent, args, { models, me }) => {
 			const { name, rank } = args;
-			await models.Movie.create({
+			const movie = await models.Movie.create({
 				name,
 				rank,
 				userId: me.id
 			});
-
-			const watchedList = await models.Movie.findAll({ where: { watched: false } });
-			return watchedList;
+			console.log('movie', movie);
+			return movie;
 		}),
 
 		deleteMovie: combineResolvers(isAuthenticated, isMovieOwner, async (parent, args, { models }) => {

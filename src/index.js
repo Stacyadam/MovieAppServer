@@ -16,14 +16,11 @@ const app = express();
 
 app.use(cors());
 
-console.log('this is the secret', process.env.SECRET);
-
 const getMe = async req => {
 	let token = req.headers.authorization;
 
 	if (token) {
 		token = token.replace('Bearer ', '');
-		console.log('this is the token', token);
 		try {
 			return await jwt.verify(token, process.env.SECRET);
 		} catch (error) {

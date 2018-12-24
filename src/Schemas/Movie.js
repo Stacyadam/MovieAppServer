@@ -8,7 +8,7 @@ module.exports = gql`
 	}
 
 	extend type Mutation {
-		createMovie(name: String!, rank: Int!): [Movie!]!
+		createMovie(name: String!, rank: Int!): Movie!
 		deleteMovie(name: String!): [Movie!]!
 		rateMovie(name: String!, stars: Float!): [Movie!]!
 	}
