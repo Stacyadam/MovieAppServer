@@ -17,8 +17,10 @@ const app = express();
 app.use(cors());
 
 const getMe = async req => {
-	console.log('request', req);
 	let token = req.headers.authentication;
+
+	console.log('this is getting hit!');
+	console.log('this is the token', token);
 
 	if (token) {
 		token = token.replace('Bearer ', '');
