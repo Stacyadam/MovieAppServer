@@ -22,33 +22,30 @@ module.exports = {
 	Mutation: {
 		createMovie: combineResolvers(isAuthenticated, async (parent, args, { models, me }) => {
 			const { name, rank } = args;
-			const movie = await models.Movie.create({
+			return await models.Movie.create({
 				name,
 				rank,
 				userId: me.id
 			});
-			console.log('movie', movie);
-			return movie;
 		}),
 
 		deleteMovie: combineResolvers(isAuthenticated, isMovieOwner, async (parent, args, { models }) => {
 			const { name } = args;
+			const deleted = await models.Movie.findOne({ where: { name } });
 			await models.Movie.destroy({ where: { name } });
 
-			return await models.Movie.findAll();
+			return deleted;
 		}),
 
 		rateMovie: combineResolvers(isAuthenticated, async (parent, args, { models }) => {
 			const { name, stars } = args;
 			//TODO Find movie record, see if it has a stars value, take the average with the incoming stars request
 			const update = await models.Movie.update({ stars, watched: true }, { where: { name } });
-
 			if (update[0] === 0) {
 				throw new Error('No movie found with that name.');
 			}
 
-			const watchedList = await models.Movie.findAll({ where: { watched: true } });
-			return watchedList;
+			return await models.Movie.findOne({ where: { name } });
 		})
 	},
 
