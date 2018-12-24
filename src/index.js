@@ -16,6 +16,8 @@ const app = express();
 
 app.use(cors());
 
+console.log('this is the secret', process.env.SECRET);
+
 const getMe = async req => {
 	let token = req.headers.authentication;
 
