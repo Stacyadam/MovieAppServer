@@ -19,19 +19,19 @@ app.use(cors());
 console.log('this is the secret', process.env.SECRET);
 
 const getMe = async req => {
-	let token = req.headers;
+	//let token = req.headers.authorization;
 
-	console.log('these are the headers', req.headers);
+	console.log('these are the authorization', req.headers.authorization);
 	// console.log('this is the token', token);
 
-	if (token) {
-		token = token.replace('Bearer ', '');
-		try {
-			return await jwt.verify(token, process.env.SECRET);
-		} catch (error) {
-			throw new AuthenticationError('Your session has expired. Please sign in again.');
-		}
-	}
+	// if (token) {
+	// 	token = token.replace('Bearer ', '');
+	// 	try {
+	// 		return await jwt.verify(token, process.env.SECRET);
+	// 	} catch (error) {
+	// 		throw new AuthenticationError('Your session has expired. Please sign in again.');
+	// 	}
+	// }
 };
 
 const server = new ApolloServer({
