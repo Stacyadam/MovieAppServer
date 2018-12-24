@@ -17,12 +17,11 @@ const app = express();
 app.use(cors());
 
 const getMe = async req => {
+	console.log('request', req);
 	let token = req.headers.authentication;
 
 	if (token) {
 		token = token.replace('Bearer ', '');
-		console.log('this is the header', req.headers.authentication);
-		console.log('this is the token', token);
 		try {
 			return await jwt.verify(token, process.env.SECRET);
 		} catch (error) {
