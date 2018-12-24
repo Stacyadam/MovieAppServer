@@ -19,10 +19,10 @@ app.use(cors());
 console.log('this is the secret', process.env.SECRET);
 
 const getMe = async req => {
-	let token = req.headers.authentication;
+	let token = req.headers;
 
-	console.log('this is getting hit!');
-	console.log('this is the token', token);
+	console.log('these are the headers', req.headers);
+	// console.log('this is the token', token);
 
 	if (token) {
 		token = token.replace('Bearer ', '');
