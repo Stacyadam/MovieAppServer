@@ -4,7 +4,7 @@ const { isAuthenticated, isMovieOwner } = require('./authorization');
 module.exports = {
 	Query: {
 		movies: (parent, args, { models }) => {
-			return models.Movie.findAll({ where: { watched: false } });
+			return models.Movie.findAll();
 		},
 		watchedMovies: (parent, args, { models }) => {
 			return models.Movie.findAll({ where: { watched: true } });
