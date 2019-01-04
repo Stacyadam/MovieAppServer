@@ -19,6 +19,7 @@ module.exports = gql`
 		stars: Float!
 		rank: Int!
 		watched: Boolean!
+		comments: String
 		user: User!
 	}
 `;

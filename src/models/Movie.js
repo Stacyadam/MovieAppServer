@@ -39,6 +39,9 @@ module.exports = (sequelize, DataTypes) => {
 				}
 			}
 		},
+		comment: {
+			type: DataTypes.STRING
+		},
 		watched: {
 			type: DataTypes.BOOLEAN,
 			defaultValue: false
