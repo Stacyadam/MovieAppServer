@@ -34,8 +34,8 @@ module.exports = (sequelize, DataTypes) => {
 					msg: 'Movie stars must not be negative'
 				},
 				max: {
-					args: [5],
-					msg: 'Movie stars must be lower than 5'
+					args: [10],
+					msg: 'Movie stars must be lower than 10'
 				}
 			}
 		},

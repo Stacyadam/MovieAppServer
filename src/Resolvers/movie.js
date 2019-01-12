@@ -42,9 +42,11 @@ module.exports = {
 			//TODO Find movie record, see if it has a stars value, take the average with the incoming stars request
 			const updateObj = {
 				stars,
-				comment,
 				watched: true
 			};
+
+			if (comment) updateObj.comment = comment;
+
 			const update = await models.Movie.update(updateObj, { where: { name } });
 			if (update[0] === 0) {
 				throw new Error('No movie found with that name.');
