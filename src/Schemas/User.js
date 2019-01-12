@@ -18,6 +18,7 @@ module.exports = gql`
 	type User {
 		id: ID!
 		email: String!
+		role: String!
 		movies: [Movie!]
 	}
 `;
